@@ -3,8 +3,8 @@ FROM ubuntu:latest
 # Install OpenSSH server and sudo
 RUN apt update && apt install openssh-server sudo -y
 
-# Create a user “sshuser” and group “sshgroup”
-RUN groupadd sshgroup && useradd -ms /bin/bash -g sshgroup sshuser
+# Create a user “sshuser” and group “sshgroup”, and add it to the sudo group
+RUN groupadd sshgroup && useradd -ms /bin/bash -g sshgroup -G sudo sshuser
 
 # Set password for sshuser
 RUN echo 'sshuser:kocak' | chpasswd
