@@ -1,0 +1,10 @@
+---
+- name: Ping hosts via SSH
+  hosts: all
+  become: true
+  become_user: root
+  gather_facts: false
+  tasks:
+    - name: Ping the host
+      ping:
+      become: yes
