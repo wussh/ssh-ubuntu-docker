@@ -89,7 +89,7 @@ CONTAINER ID   IMAGE       COMMAND               CREATED        STATUS        PO
 To SSH into the running container, use the following command:
 
 ```bash
-ssh -i ./ssh/id_rsa sshuser@localhost -p 2022
+ssh -i ./ssh/id_rsa.pub sshuser@localhost -p 2022
 ```
 
 ### Note:
