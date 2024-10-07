@@ -1,15 +1,28 @@
 FROM ubuntu:latest
-RUN apt update && apt install  openssh-server sudo -y
+
+# Install OpenSSH server and sudo
+RUN apt update && apt install openssh-server sudo -y
+
 # Create a user “sshuser” and group “sshgroup”
 RUN groupadd sshgroup && useradd -ms /bin/bash -g sshgroup sshuser
+
+# Set password for sshuser
+RUN echo 'sshuser:kocak' | chpasswd
+
 # Create sshuser directory in home
 RUN mkdir -p /home/sshuser/.ssh
-# Copy the ssh public key in the authorized_keys file. The idkey.pub below is a public key file you get from ssh-keygen. They are under ~/.ssh directory by default.
+
+# Copy the ssh public key in the authorized_keys file
 COPY idkey.pub /home/sshuser/.ssh/authorized_keys
-# change ownership of the key file. 
+
+# Change ownership of the key file and set permissions
 RUN chown sshuser:sshgroup /home/sshuser/.ssh/authorized_keys && chmod 600 /home/sshuser/.ssh/authorized_keys
+
 # Start SSH service
 RUN service ssh start
-# Expose docker port 22
+
+# Expose Docker port 22
 EXPOSE 22
-CMD ["/usr/sbin/sshd","-D"]
+
+# Command to run SSH daemon
+CMD ["/usr/sbin/sshd", "-D"]
